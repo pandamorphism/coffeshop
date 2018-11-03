@@ -4,22 +4,24 @@ import {ProductListComponent} from './view/product-list/product-list.component';
 import {CoffeeEndpoints, ENDPOINTS} from '../shared/service/endpoints.config';
 import {MaterialModule} from '../shared/view/material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {ProductDetailsPageComponent} from './view/product-details/product-details-page.component';
 
 const api: CoffeeEndpoints = {
   menu: '/menu.json',
-  products: '/products.json'
+  products: '/product.json'
 };
 const CoffeeEndpointsProvider: Provider = {provide: ENDPOINTS, multi: true, useValue: api};
 
 
 @NgModule({
-  declarations: [ProductListComponent],
+  declarations: [ProductListComponent, ProductDetailsPageComponent],
   imports: [
     CommonModule,
     MaterialModule,
     FlexLayoutModule,
   ],
-  providers: [CoffeeEndpointsProvider]
+  providers: [CoffeeEndpointsProvider],
+  entryComponents: [ProductDetailsPageComponent]
 })
 export class MenuModule {
 }
