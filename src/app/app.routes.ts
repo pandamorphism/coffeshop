@@ -2,10 +2,12 @@ import {RouterModule, Routes} from '@angular/router';
 import {ProductListComponent} from './menu/view/product-list/product-list.component';
 import {NgModule} from '@angular/core';
 import {MenuModule} from './menu/menu.module';
+import {WelcomePageComponent} from './welcome-page/welcome-page.component';
 
 export const routes: Routes = [
-  {path: '', component: ProductListComponent},
-  {path: '**', component: ProductListComponent}
+  {path: '', component: WelcomePageComponent},
+  {path: 'catalog', component: ProductListComponent},
+  {path: '**', component: WelcomePageComponent}
 ];
 
 @NgModule({

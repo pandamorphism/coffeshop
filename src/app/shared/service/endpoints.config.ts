@@ -22,7 +22,6 @@ export class API {
 
   constructor(@Inject(ENDPOINTS) private _endPoints) {
     this.endPoints = _endPoints.reduce((all, endpoint) => ({...all, ...endpoint}), {});
-    console.log('i have configured endpoints: %O', this.endPoints);
   }
 
   resolve(path: string) {

@@ -1,0 +1,11 @@
+.example-card {
+  max-width: 400px;
+  margin: 20px;
+}
+
+.example-header-image {
+  background-image: url('/assets/img/seller.jpg');
+  background-size: cover;
+}
+
+

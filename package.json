@@ -10,7 +10,7 @@
     "test:nowatch": "ng test --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "release":  "npm run test:nowatch --watch=false && npm run build:prod && firebase deploy"
+    "release": "npm run test:nowatch --watch=false && npm run build:prod && firebase deploy"
   },
   "private": true,
   "dependencies": {
@@ -19,6 +19,7 @@
     "@angular/common": "~7.0.0",
     "@angular/compiler": "~7.0.0",
     "@angular/core": "~7.0.0",
+    "@angular/flex-layout": "^7.0.0-beta.19",
     "@angular/forms": "~7.0.0",
     "@angular/http": "~7.0.0",
     "@angular/material": "^7.0.2",

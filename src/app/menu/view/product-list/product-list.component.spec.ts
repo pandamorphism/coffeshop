@@ -2,6 +2,8 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ProductListComponent} from './product-list.component';
 import {MenuService} from '../../service/menu.service';
+import {MaterialModule} from '../../../shared/view/material.module';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 describe('ProductListComponent', () => {
   let component: ProductListComponent;
@@ -9,6 +11,7 @@ describe('ProductListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [MaterialModule, FlexLayoutModule],
       declarations: [ProductListComponent],
       providers: [{
         provide: MenuService, useValue: {
