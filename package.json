@@ -7,8 +7,10 @@
     "build": "ng build",
     "build:prod": "ng build --prod",
     "test": "ng test",
+    "test:nowatch": "ng test --watch=false",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "release":  "npm run test:nowatch --watch=false && npm run build:prod && firebase deploy"
   },
   "private": true,
   "dependencies": {
