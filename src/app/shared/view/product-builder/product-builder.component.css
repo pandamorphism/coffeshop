@@ -5,3 +5,30 @@
 .productName .description {
   font-size: small;
 }
+
+.counter {
+  margin-left: auto;
+}
+
+mat-list-item {
+  margin-bottom: 5px;
+}
+
+.buyBtn {
+  width: 90%;
+  font-size: smaller;
+}
+
+.buyBtn .info {
+  text-transform: uppercase;
+}
+
+.buyBtn .totalPrice {
+  float: right;
+}
+
+.buyBtn .icon {
+  float: left;
+  position: relative;
+  top: 7px;
+}

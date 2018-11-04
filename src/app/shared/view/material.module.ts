@@ -19,12 +19,12 @@ const modules = [
   MatListModule,
   MatCardModule,
   MatDialogModule,
-  MatDividerModule
+  MatDividerModule,
 ];
 
 @NgModule({
   imports: modules,
-  exports: modules
+  exports: modules,
 })
 export class MaterialModule {
 }

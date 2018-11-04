@@ -3,6 +3,7 @@ import {ProductDetailsPageComponent} from './product-details-page.component';
 import {MAT_DIALOG_DATA} from '@angular/material';
 import {ProductBuilderComponent} from '../../../shared/view/product-builder/product-builder.component';
 import {MaterialModule} from '../../../shared/view/material.module';
+import {ProductBuilderModule} from '../../../shared/view/product-builder.module';
 
 
 describe('ProductDetailsComponent', () => {
@@ -11,9 +12,9 @@ describe('ProductDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MaterialModule],
+      imports: [MaterialModule, ProductBuilderModule],
       providers: [{provide: MAT_DIALOG_DATA, useValue: {productDetails: {description: 'moar coffee please'}}}],
-      declarations: [ProductDetailsPageComponent, ProductBuilderComponent]
+      declarations: [ProductDetailsPageComponent]
     })
       .compileComponents();
   }));

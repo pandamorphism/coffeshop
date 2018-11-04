@@ -1,0 +1,9 @@
+<div>
+  <button mat-icon-button color="primary" [disabled]="value === min" (click)="decrease()">
+    <mat-icon>remove_circle</mat-icon>
+  </button>
+  <span class="count">{{value}}</span>
+  <button mat-icon-button color="primary" [disabled]="value === max" (click)="increase()">
+    <mat-icon>add_circle</mat-icon>
+  </button>
+</div>

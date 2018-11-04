@@ -8,7 +8,8 @@ import {ProductDetails} from '../../model/model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductBuilderComponent implements OnInit {
-
+  size = 1;
+  totalPrice: number;
   @Input()
   product: ProductDetails;
 
@@ -16,6 +17,17 @@ export class ProductBuilderComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.product) {
+      this.recalculate();
+    }
   }
 
+  produceSizeChanged(size: number) {
+    this.size = size;
+    this.recalculate();
+  }
+
+  private recalculate() {
+    this.totalPrice = this.size * this.product.price;
+  }
 }
