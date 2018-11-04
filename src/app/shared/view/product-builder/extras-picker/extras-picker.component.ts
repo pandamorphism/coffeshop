@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {Extra} from '../../../model/model';
 import {byExtraId, IndexedOption} from '../product-builder.component';
 
@@ -8,7 +8,7 @@ import {byExtraId, IndexedOption} from '../product-builder.component';
   styleUrls: ['./extras-picker.component.css', '../product-builder.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ExtrasPickerComponent implements OnInit, OnChanges {
+export class ExtrasPickerComponent {
   @Input() extras: Extra[] = [];
   @Input() validationFailed: { extraId: number }[] = [];
   @Output() replaceOption: EventEmitter<IndexedOption> = new EventEmitter();
@@ -18,14 +18,6 @@ export class ExtrasPickerComponent implements OnInit, OnChanges {
   radioButtonGroupState: { [key: number]: any } = {};
 
   constructor() {
-  }
-
-  ngOnChanges(changes: { [propKey: string]: SimpleChange }): void {
-    const validationFailed = changes['validationFailed'] && !changes['validationFailed'].firstChange;
-    console.log('validation failed', validationFailed);
-  }
-
-  ngOnInit() {
   }
 
   replace(extraId: number, optionId: number) {
