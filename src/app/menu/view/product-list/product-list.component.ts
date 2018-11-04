@@ -53,7 +53,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
                 data: {productDetails},
                 maxWidth: '17vw',
                 minWidth: '300px',
-                maxHeight: '95vh',
+                maxHeight: '90vh',
                 panelClass: 'coffee-dialog'
               })
               .afterClosed()

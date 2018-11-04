@@ -3,6 +3,18 @@
   text-transform: uppercase;
 }
 
+.header .secondaryAction {
+  text-transform: none;
+  cursor: pointer;
+}
+
+.header.hint {
+  text-transform: none;
+  font-size: smaller;
+  padding: 7px 0 7px 15px;
+  background: #e4e4e4;
+}
+
 .selection {
   cursor: pointer;
 }
@@ -11,7 +23,11 @@
   background: aliceblue;
 }
 
-span.optionPrice {
+span.hint {
   opacity: .5;
   margin-left: 2px;
+}
+
+.attention {
+  background: red !important;
 }

@@ -1,9 +1,9 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ProductDetails} from '../../model/model';
 /* tslint:disable: interface-over-type-literal */
 export type IndexedOption = { extraId: number, optionId: number };
 // todo: i`d use ramda here
-export const byExtraId: (something: IndexedOption) => (another: IndexedOption) => boolean =
+export const byExtraId: (something: { extraId: number }) => (another: { extraId: number }) => boolean =
   something => another => something.extraId === another.extraId;
 export const equals: (item: IndexedOption, another: IndexedOption) => boolean =
   (item, another) => item.extraId === another.extraId && item.optionId === another.optionId;
@@ -17,8 +17,10 @@ export const equals: (item: IndexedOption, another: IndexedOption) => boolean =
 export class ProductBuilderComponent implements OnInit {
   size = 1;
   totalPrice: number;
+  validationFailed: { extraId: number }[] = [];
   @Input()
   product: ProductDetails;
+  @Output() buy: EventEmitter<{ size: number, productId: number, extras: IndexedOption[] }> = new EventEmitter();
   private selectedExtras: { extraId: number; optionId: number }[] = [];
 
   constructor() {
@@ -41,7 +43,6 @@ export class ProductBuilderComponent implements OnInit {
     } else {
       this.selectedExtras = this.selectedExtras.map(extra => extra.extraId === indexed.extraId ? indexed : extra);
     }
-    console.log('selected extras: %O', this.selectedExtras);
     this.recalculate();
   }
 
@@ -57,9 +58,22 @@ export class ProductBuilderComponent implements OnInit {
     this.recalculate();
   }
 
+  processProduct() {
+    if (this.checkRequiredWerePickedUp()) {
+      this.buy.emit({size: this.size, productId: this.product.id, extras: this.selectedExtras});
+    }
+  }
+
+  onRemoveExtra({extraId}) {
+    this.selectedExtras =
+      this.selectedExtras
+        .reduce((selected, current) => current.extraId === extraId ? selected : [...selected, current], []);
+    this.recalculate();
+  }
+
   private recalculate() {
-    this.totalPrice = this.size * this.product.price +
-      this.selectedExtras.reduce((total, option) => total + this.priceOf(option), 0);
+    this.totalPrice = this.size * (this.product.price +
+      this.selectedExtras.reduce((total, option) => total + this.priceOf(option), 0));
   }
 
   // todo: memoization should be applied here, to replace scan with atomic get
@@ -70,5 +84,16 @@ export class ProductBuilderComponent implements OnInit {
       return foundOption && foundOption.price || 0;
     }
     return 0;
+  }
+
+  private checkRequiredWerePickedUp(): boolean {
+    const required = this.product.extras.reduce((ids, extra) => extra.min > 0 ? [...ids, {extraId: extra.id}] : ids, []);
+    const requiredNotChosen = required.filter(extraId => !this.selectedExtras.find(byExtraId(extraId)));
+    if (requiredNotChosen.length > 0) {
+      this.validationFailed = [...requiredNotChosen];
+      return false;
+    }
+    this.validationFailed = [];
+    return true;
   }
 }

@@ -1,13 +1,20 @@
 <ng-container  *ngFor="let extra of extras">
   <mat-list-item class="header">
-    {{extra.name}}
+    {{extra.name}}<span *ngIf="extra.min > 0" class="hint">(required)</span>
+    <mat-label *ngIf="extra.min === 0 && extra.max === 1" class="right secondaryAction" (click)="reset(extra.id)">
+      reset
+    </mat-label>
   </mat-list-item>
+  <div *ngIf="extra.min > 0" class="header hint"
+       [ngClass]="{attention:wasFailed(extra.id)}">
+    Please select 1 item
+  </div>
   <!--single choice template-->
-  <mat-radio-group #radioGroup="matRadioGroup"  *ngIf="extra.max===1; else multichoice">
+  <mat-radio-group [(ngModel)]="radioButtonGroupState[extra.id]" *ngIf="extra.max===1; else multichoice">
     <ng-container *ngFor="let option of extra.items; let last = last">
       <mat-list-item class="selection">
         <span>{{option.name}}</span>
-        <span class="optionPrice" *ngIf="option.price">({{option.price | currency: 'USD'}})</span>
+        <span class="hint" *ngIf="option.price">({{option.price | currency: 'USD'}})</span>
         <mat-radio-button class="right" (change)="replace(extra.id, option.id)" [value]="option.id">
         </mat-radio-button>
       </mat-list-item>
@@ -19,7 +26,7 @@
     <ng-container *ngFor="let option of extra.items; let last = last">
       <mat-list-item class="selection">
         <span>{{option.name}}</span>
-        <span class="optionPrice" *ngIf="option.price">({{option.price | currency: 'USD'}})</span>
+        <span class="hint" *ngIf="option.price">({{option.price | currency: 'USD'}})</span>
         <mat-checkbox (change)="addOrRemove(extra.id, option.id, $event.checked && 'add' || 'remove')"
                       class="right"></mat-checkbox>
       </mat-list-item>

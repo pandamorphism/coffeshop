@@ -15,9 +15,13 @@ mat-card.productBuilder {
   margin-left: auto;
 }
 
-mat-list-item {
-  margin-bottom: 5px;
+mat-checkbox.right {
+  padding-right: 8px;
 }
+
+/*mat-list-item {*/
+  /*margin-bottom: 5px;*/
+/*}*/
 
 .buyBtn {
   width: 90%;
