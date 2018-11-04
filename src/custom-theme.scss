@@ -13,7 +13,7 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $coffeshop-primary: mat-palette($mat-brown, A400);
-$coffeshop-accent: mat-palette($mat-pink, A200, A100, A400);
+$coffeshop-accent: mat-palette($mat-brown, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $coffeshop-warn: mat-palette($mat-brown, 900);

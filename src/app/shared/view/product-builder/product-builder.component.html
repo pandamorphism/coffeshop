@@ -1,4 +1,4 @@
-<mat-card class="mat-elevation-z0">
+<mat-card class="mat-elevation-z0 productBuilder">
   <img mat-card-image src="{{product?.images?.full_size}}" alt="product_image">
   <mat-card-content>
     <mat-list dense>
@@ -13,10 +13,16 @@
       </mat-list-item>
       <mat-list-item class="price">
         <div>$ {{product?.price}}</div>
-        <div class="counter">
+        <div class="right">
           <app-counter [val]="size" (valueChanged)="produceSizeChanged($event)"></app-counter>
         </div>
       </mat-list-item>
+      <app-extras-picker [extras]="product?.extras"
+                         (addOption)="onAddOption($event)"
+                         (removeOption)="onRemoveOption($event)"
+                         (replaceOption)="replaceOrAdd($event) ">
+
+      </app-extras-picker>
     </mat-list>
   </mat-card-content>
   <mat-card-actions align="center">

@@ -51,7 +51,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
             this.dialog.open(ProductDetailsPageComponent,
               {
                 data: {productDetails},
-                maxWidth: '20vw',
+                maxWidth: '17vw',
                 minWidth: '300px',
                 maxHeight: '95vh',
                 panelClass: 'coffee-dialog'

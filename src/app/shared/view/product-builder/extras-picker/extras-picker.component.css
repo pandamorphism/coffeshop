@@ -1,0 +1,17 @@
+.header {
+  background: whitesmoke;
+  text-transform: uppercase;
+}
+
+.selection {
+  cursor: pointer;
+}
+
+.selection:hover {
+  background: aliceblue;
+}
+
+span.optionPrice {
+  opacity: .5;
+  margin-left: 2px;
+}
