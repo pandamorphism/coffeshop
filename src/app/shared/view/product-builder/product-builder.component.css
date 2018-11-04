@@ -1,0 +1,7 @@
+.productName {
+  text-align: center;
+}
+
+.productName .description {
+  font-size: small;
+}

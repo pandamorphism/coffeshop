@@ -3,6 +3,7 @@ import {
   MatButtonModule,
   MatCardModule,
   MatDialogModule,
+  MatDividerModule,
   MatIconModule,
   MatListModule,
   MatSidenavModule,
@@ -17,7 +18,8 @@ const modules = [
   MatIconModule,
   MatListModule,
   MatCardModule,
-  MatDialogModule
+  MatDialogModule,
+  MatDividerModule
 ];
 
 @NgModule({

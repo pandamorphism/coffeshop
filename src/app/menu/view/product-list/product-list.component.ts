@@ -48,7 +48,15 @@ export class ProductListComponent implements OnInit, OnDestroy {
           // delay here until Angular team implemented this  https://github.com/angular/angular/issues/15634
           delay(0),
           switchMap(productDetails =>
-            this.dialog.open(ProductDetailsPageComponent, {data: {productDetails}}).afterClosed()
+            this.dialog.open(ProductDetailsPageComponent,
+              {
+                data: {productDetails},
+                maxWidth: '20vw',
+                minWidth: '300px',
+                maxHeight: '95vh',
+                panelClass: 'coffee-dialog'
+              })
+              .afterClosed()
               .pipe(tap(_ => this.router.navigate(['products'])))
           ),
         )

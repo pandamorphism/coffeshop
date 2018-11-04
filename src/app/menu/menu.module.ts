@@ -5,6 +5,7 @@ import {CoffeeEndpoints, ENDPOINTS} from '../shared/service/endpoints.config';
 import {MaterialModule} from '../shared/view/material.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {ProductDetailsPageComponent} from './view/product-details/product-details-page.component';
+import {ProductBuilderComponent} from '../shared/view/product-builder/product-builder.component';
 
 const api: CoffeeEndpoints = {
   menu: '/menu.json',
@@ -14,7 +15,7 @@ const CoffeeEndpointsProvider: Provider = {provide: ENDPOINTS, multi: true, useV
 
 
 @NgModule({
-  declarations: [ProductListComponent, ProductDetailsPageComponent],
+  declarations: [ProductListComponent, ProductDetailsPageComponent, ProductBuilderComponent],
   imports: [
     CommonModule,
     MaterialModule,

@@ -9,6 +9,7 @@ export type Product = HasNameAndId & {
 };
 
 export type ProductDetails = HasNameAndId & {
+  price: number;
   before_sale_price?: number;
   description: string;
   full_description: string;

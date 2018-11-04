@@ -14,7 +14,7 @@ import {MaterialModule} from './shared/view/material.module';
   declarations: [
     AppComponent,
     NavigationComponent,
-    WelcomePageComponent
+    WelcomePageComponent,
   ],
   imports: [
     BrowserModule,
