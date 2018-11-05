@@ -1,5 +1,7 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {ProductDetails} from '../../model/model';
+import {Subject} from 'rxjs';
+import {filter, takeUntil, tap} from 'rxjs/operators';
 /* tslint:disable: interface-over-type-literal */
 export type IndexedOption = { extraId: number, optionId: number };
 // todo: i`d use ramda here
@@ -8,13 +10,53 @@ export const byExtraId: (something: { extraId: number }) => (another: { extraId:
 export const equals: (item: IndexedOption, another: IndexedOption) => boolean =
   (item, another) => item.extraId === another.extraId && item.optionId === another.optionId;
 
+export type Actions = {
+  replaceOrAdd: (indexed: IndexedOption) => void,
+  onAddOption: (event: IndexedOption) => void,
+  onRemoveOption: (indexed: IndexedOption) => void,
+  onRemoveExtra: ({extraId: number}) => void,
+  produceSizeChanged: (size: number) => void
+};
+
+
+export const componentActions: Actions = {
+  replaceOrAdd(indexed: IndexedOption) {
+    if (this.selectedExtras.length === 0 || !this.selectedExtras.find(byExtraId(indexed))) {
+      this.selectedExtras.push(indexed);
+    } else {
+      this.selectedExtras = this.selectedExtras.map(extra => extra.extraId === indexed.extraId ? indexed : extra);
+    }
+  },
+
+  onAddOption($event: IndexedOption) {
+    this.selectedExtras.push($event);
+  },
+
+  onRemoveOption(candidate: IndexedOption) {
+    this.selectedExtras =
+      this.selectedExtras
+        .reduce((selected, current) => equals(current, candidate) ? selected : [...selected, current], []);
+  },
+
+  onRemoveExtra({extraId}) {
+    this.selectedExtras =
+      this.selectedExtras
+        .reduce((selected, current) => current.extraId === extraId ? selected : [...selected, current], []);
+  },
+
+  produceSizeChanged(size: number) {
+    this.size = size;
+  }
+
+};
+
 @Component({
   selector: 'app-product-builder',
   templateUrl: './product-builder.component.html',
   styleUrls: ['./product-builder.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductBuilderComponent implements OnInit {
+export class ProductBuilderComponent implements OnInit, OnDestroy {
   size = 1;
   totalPrice: number;
   validationFailed: { extraId: number }[] = [];
@@ -22,6 +64,8 @@ export class ProductBuilderComponent implements OnInit {
   product: ProductDetails;
   @Output() buy: EventEmitter<{ size: number, productId: number, extras: IndexedOption[] }> = new EventEmitter();
   private selectedExtras: { extraId: number; optionId: number }[] = [];
+  private execute$: Subject<{ action: keyof Actions, args: any[] }> = new Subject();
+  private destroyed$: Subject<void> = new Subject();
 
   constructor() {
   }
@@ -30,32 +74,13 @@ export class ProductBuilderComponent implements OnInit {
     if (this.product) {
       this.recalculate();
     }
-  }
 
-  produceSizeChanged(size: number) {
-    this.size = size;
-    this.recalculate();
-  }
-
-  replaceOrAdd(indexed: IndexedOption) {
-    if (this.selectedExtras.length === 0 || !this.selectedExtras.find(byExtraId(indexed))) {
-      this.selectedExtras.push(indexed);
-    } else {
-      this.selectedExtras = this.selectedExtras.map(extra => extra.extraId === indexed.extraId ? indexed : extra);
-    }
-    this.recalculate();
-  }
-
-  onAddOption($event: IndexedOption) {
-    this.selectedExtras.push($event);
-    this.recalculate();
-  }
-
-  onRemoveOption(candidate: IndexedOption) {
-    this.selectedExtras =
-      this.selectedExtras
-        .reduce((selected, current) => equals(current, candidate) ? selected : [...selected, current], []);
-    this.recalculate();
+    this.execute$.pipe(
+      filter(({action}) => action in componentActions && typeof componentActions[action] === 'function'),
+      tap(({action, args}) => componentActions[action].apply(this, args)),
+      tap(_ => this.recalculate()),
+      takeUntil(this.destroyed$)
+    ).subscribe();
   }
 
   processProduct() {
@@ -64,12 +89,11 @@ export class ProductBuilderComponent implements OnInit {
     }
   }
 
-  onRemoveExtra({extraId}) {
-    this.selectedExtras =
-      this.selectedExtras
-        .reduce((selected, current) => current.extraId === extraId ? selected : [...selected, current], []);
-    this.recalculate();
+  ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
+
 
   private recalculate() {
     this.totalPrice = this.size * (this.product.price +
