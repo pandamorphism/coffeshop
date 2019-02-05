@@ -14,3 +14,7 @@ Application should work in all modern desktop/mobile browsers.
 Basic validation should be implemented.
 The price in the `Add to cart` button should reflect the subtotal, based on the product price, quantity and any selected options.
 
+
+<img src="https://github.com/pandamorphism/coffeshop/blob/master/image.png"
+     alt="Mockups"
+     style="float: left; margin-right: 10px;" />
